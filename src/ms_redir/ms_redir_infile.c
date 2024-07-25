@@ -6,34 +6,41 @@
 /*   By: capapes <capapes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 23:12:17 by capapes           #+#    #+#             */
-/*   Updated: 2024/07/25 14:14:58 by capapes          ###   ########.fr       */
+/*   Updated: 2024/07/25 14:40:34 by capapes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include "ms_redir.h"
 #include <errno.h>
+#include <unistd.h>
 
 static int	filein(t_input *input)
 {
-	input->fd[0] = open(input->file, O_RDONLY);
-	if (input->fd[0] == -1)
-		return (errno);
+	input->fd[FD_READ] = open(input->file, O_RDONLY);
+	if (input->fd[FD_READ] == -1)
+		return (ms_err_print(input->file, errno));
 	return (0);
 }
 
 static int	pipein(int *fd)
 {
 	if (pipe(fd) == -1)
-		return (errno);
+		return (ms_err_print("pipe", errno));
 	return (0);
 }
 
 static int	herein(t_input *input)
 {
-	input->fd[0] = open(".tmp", O_WRONLY | O_CREAT | O_TRUNC, RW_R_R);
-	if (input->fd[0] == -1)
-		return (printf("minishell: %s: %s\n", ".tmp", strerror(errno)));
+	input->fd[FD_READ] = open(".tmp", O_WRONLY | O_CREAT | O_TRUNC, RW_R_R);
+	if (input->fd[FD_READ] == -1)
+		return (ms_err_print("here doc", errno));
+	return (0);
+}
+
+int	set_stdin(t_input *input)
+{
+	input->fd[FD_READ] = STDIN_FILENO;
 	return (0);
 }
 
@@ -52,4 +59,6 @@ void	ms_redir_infile(t_input *input)
 		return (pipein(input->fd));
 	if (input->type == HEREIN)
 		return (herein(input));
+	if (input->type == STDIN)
+		set_stdin(input);
 }
