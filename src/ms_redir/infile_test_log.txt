@@ -1,0 +1,28 @@
+bash-3.2$ <empty_dir cat
+cat: stdin: Is a directory
+
+bash-3.2$ <empty_dir ls
+empty_dir
+
+empty_dir
+cat: stdin: Is a directory
+
+<empty_dir ls | cat
+empty_dir
+
+bash-3.2$ <empty_dir cat && cat hello
+cat: stdin: Is a directory
+
+bash-3.2$ cat > hello
+world
+
+bash-3.2$ chmod 000 hello
+bash-3.2$ <hello cat && cat hello
+world
+world
+
+bash-3.2$ <hello cat && cat >hello
+world
+bash: hello: Permission denied
+
+// look how change file permissions
