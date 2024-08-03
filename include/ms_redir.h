@@ -6,7 +6,7 @@
 /*   By: capapes <capapes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 22:05:30 by capapes           #+#    #+#             */
-/*   Updated: 2024/07/25 15:14:01 by capapes          ###   ########.fr       */
+/*   Updated: 2024/08/03 15:50:02 by capapes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,7 @@ typedef struct s_output
 }	t_output;
 
 int	ms_fd_close(int *fd);
+int	ms_redir_outfile(t_output *output);
 
 #endif
+

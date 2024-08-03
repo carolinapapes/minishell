@@ -6,12 +6,13 @@
 /*   By: capapes <capapes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 22:07:58 by capapes           #+#    #+#             */
-/*   Updated: 2024/07/25 14:40:50 by capapes          ###   ########.fr       */
+/*   Updated: 2024/07/31 16:17:03 by capapes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include "ms_redir.h"
+#include "ms_err.h"
 #include <errno.h>
 #include <unistd.h>
 
@@ -21,6 +22,7 @@ static int	get_open_args(t_output *output)
 		return (O_WRONLY | O_CREAT | O_TRUNC);
 	if (output->type == FILEAPPEND)
 		return (O_WRONLY | O_CREAT | O_APPEND);
+	return (0);
 }
 
 static int	outfile(t_output *output)
@@ -48,7 +50,7 @@ static int	set_stdout(t_output *output)
 }
 
 /*
- * @brief Redirects the output to a file or a pipe
+ * @brief Redirects the output to a file, a pipe or stdout
  * 
  * @param output The output structure
  * @return int 1 if an error occured, 0 otherwise
@@ -56,13 +58,11 @@ static int	set_stdout(t_output *output)
 
 int	ms_redir_outfile(t_output *output)
 {
-	int	open_args;
-
 	if (output->type == FILEOUT || output->type == FILEAPPEND)
 		return (outfile(output));
 	if (output->type == PIPEOUT)
 		return (pipeout(output));
 	if (output->type == STDOUT)
-		return (0);
+		return (set_stdout(output));
 	return (0);
 }

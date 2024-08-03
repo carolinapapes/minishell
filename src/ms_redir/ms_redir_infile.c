@@ -6,7 +6,7 @@
 /*   By: capapes <capapes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 23:12:17 by capapes           #+#    #+#             */
-/*   Updated: 2024/07/25 14:40:34 by capapes          ###   ########.fr       */
+/*   Updated: 2024/07/31 16:40:05 by capapes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ static int	filein(t_input *input)
 	return (0);
 }
 
-static int	pipein(int *fd)
+static int	pipein(t_input *input)
 {
-	if (pipe(fd) == -1)
+	if (pipe(input->fd) == -1)
 		return (ms_err_print("pipe", errno));
 	return (0);
 }
@@ -56,7 +56,7 @@ void	ms_redir_infile(t_input *input)
 	if (input->type == FILEIN)
 		return (filein(input));
 	if (input->type == PIPEIN)
-		return (pipein(input->fd));
+		return (pipein(input));
 	if (input->type == HEREIN)
 		return (herein(input));
 	if (input->type == STDIN)

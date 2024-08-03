@@ -1,17 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_err_print.c                                     :+:      :+:    :+:   */
+/*   test_ms_redir.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: capapes <capapes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/25 14:24:48 by capapes           #+#    #+#             */
-/*   Updated: 2024/07/25 14:26:33 by capapes          ###   ########.fr       */
+/*   Created: 2024/07/30 15:53:01 by capapes           #+#    #+#             */
+/*   Updated: 2024/07/30 18:31:40 by capapes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ms_err_print(char *str, int err)
-{
-	printf("minishell: %s: %s\n", str, strerror(err));
-	return (err);
-}
+#ifndef TEST_MS_REDIR_H
+# define TEST_MS_REDIR_H
+
+# include "ms_redir.h"
+
+void	full_test_outfile(void);
+void	test_print_action(char *action, char *color);
+void	test_change_permissions(char *file, int permissions);
+void	test_create_file(t_output output, char *content);
+int		test_is_dir(char *file);
+void	test_remove_file(char *file);
+int		test_write_file(t_output *output, char *content);
+
+#endif
