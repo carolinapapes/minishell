@@ -6,7 +6,7 @@
 /*   By: capapes <capapes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 22:05:30 by capapes           #+#    #+#             */
-/*   Updated: 2024/08/03 15:50:02 by capapes          ###   ########.fr       */
+/*   Updated: 2024/08/07 19:34:56 by capapes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,38 +23,35 @@
 
 # define FILENAME ".minishell_heredoc_tmp"
 
-typedef enum e_input
+typedef enum e_io
 {
-	FILEIN,
-	HEREIN,
-	PIPEIN,
-	STDIN
-}	t_input_types;
+	OUT = 1,
+	IN = 1 << 2,
+	IO_FILE = 1 << 3,
+	PIPE = 1 << 4,
+	STD = 1 << 5,
+	HERE = 1 << 6,
+	APPEND = 1 << 7,
+	FILEIN = IN | IO_FILE,
+	HEREIN = IN | HERE,
+	PIPEIN = IN | PIPE,
+	STDIN = IN | STD,
+	PIPEOUT = OUT | PIPE,
+	STDOUT = OUT | STD,
+	FILEOUT = OUT | IO_FILE,
+	FILEAPPEND = APPEND | FILEOUT,
+}	t_io_types;
 
-typedef enum e_output
-{
-	FILEOUT,
-	FILEAPPEND,
-	PIPEOUT,
-	STDOUT
-}	t_output_types;
-
-typedef struct s_input
+typedef struct s_io
 {
 	char			*file;
 	int				fd[2];
-	t_input_types	type;
-}	t_input;
-
-typedef struct s_output
-{
-	int				fd[2];
-	char			*file;
-	t_output_types	type;
-}	t_output;
+	t_io_types		type;
+}	t_io;
 
 int	ms_fd_close(int *fd);
-int	ms_redir_outfile(t_output *output);
+
+int	io_file(t_io *io);
 
 #endif
 

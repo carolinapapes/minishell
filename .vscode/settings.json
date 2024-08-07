@@ -4,6 +4,10 @@
         "stat.h": "c",
         "ms_redir.h": "c",
         "errno.h": "c",
-        "fcntl.h": "c"
+        "fcntl.h": "c",
+        "unistd.h": "c",
+        "stdio.h": "c",
+        "compare": "c",
+        "type_traits": "c"
     }
 }

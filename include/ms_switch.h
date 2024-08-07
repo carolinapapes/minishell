@@ -1,48 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd.h                                              :+:      :+:    :+:   */
+/*   ms_switch.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: capapes <capapes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/24 21:35:50 by capapes           #+#    #+#             */
-/*   Updated: 2024/08/07 19:28:28 by capapes          ###   ########.fr       */
+/*   Created: 2024/08/07 14:40:15 by capapes           #+#    #+#             */
+/*   Updated: 2024/08/07 19:36:26 by capapes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CMD_H
-# define CMD_H
+#ifndef MS_SWITCH_H
+# define MS_SWITCH_H
 
-# ifndef MS_REDIR_H
-#  include "ms_redir.h"
+# include "ms_redir.h"
+
+typedef struct s_case_handler_func
+{
+	int type;
+	int (*fn)(void *);
+} t_case_handler_func;
+
+typedef struct s_case_handler_int
+{
+    int key;
+    int value;
+} t_case_handler_int;
+
+int ms_switch_func(int option, const t_case_handler_func handlersSet[], t_io *param);
+int ms_switch_int(int option, const t_case_handler_int	handlersSet[]);
+
 # endif
-
-typedef enum e_cmd
-{
-	BUILTIN,
-	EXTERNAL
-}	t_cmd_types;
-
-typedef enum e_builtin
-{
-	ECHO,
-	CD,
-	PWD,
-	EXPORT,
-	UNSET,
-	ENV,
-	EXIT
-}	t_builtin_types;
-
-
-typedef struct s_cmd
-{
-	t_io		input_;
-	t_io		output;
-	char		*cmd;
-	char		*path;
-	char		**args;
-	int		exit_status;
-}	t_cmd;
-
-#endif

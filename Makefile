@@ -6,7 +6,7 @@
 #    By: capapes <capapes@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/30 15:55:17 by capapes           #+#    #+#              #
-#    Updated: 2024/08/03 15:52:57 by capapes          ###   ########.fr        #
+#    Updated: 2024/08/07 15:11:07 by capapes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,12 +21,15 @@ NAME = minishell
 SRC_DIR = ./src
 BUILD_DIR = ./build
 
-SRC = 	main.c \
+SRC = 	main/main.c \
 		ms_redir/ms_redir_outfile.c \
 		ms_err/ms_err_print.c \
 		test/test_ms_redir_outfile.c \
 		ms_redir/ms_redir_fd_h.c \
-		test/test_aux.c 
+		test/test_aux.c  \
+		ms_switch/ms_switch.c 
+DIRS := main buit_in ms_redir ms_err test ms_switch
+DIRS := $(addprefix $(BUILD_DIR)/,$(DIRS))
 OBJ = $(SRC:%.c=$(BUILD_DIR)/%.o)
 DEP = $(OBJ:%.o=%.d)
 
@@ -43,20 +46,11 @@ $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) $(INCLUDE) $(OBJ) -o $(NAME) $(LDFLAGS)
 	@echo "$(GREEN)$(NAME) has been created$(DEF_COLOR)"
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c $(PREQ) | $(BUILD_DIR) $(BUILD_DIR)/ms_redir $(BUILD_DIR)/ms_err $(BUILD_DIR)/test
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c $(PREQ) | $(DIRS)
 	@$(CC) $(CFLAGS) $(DEFLAGS) $(INCLUDE) -c $< -o $@
 	@echo "$(GRAY)⏳Compiling $<$(DEF_COLOR)"
 
-$(BUILD_DIR):
-	mkdir -p $@
-
-$(BUILD_DIR)/ms_redir:
-	mkdir -p $@
-
-$(BUILD_DIR)/ms_err:
-	mkdir -p $@
-
-$(BUILD_DIR)/test:
+$(DIRS):
 	mkdir -p $@
 
 clean:
